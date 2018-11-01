@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com/showoff/mybatis/ShowoffMapper.xml">
+
+	<!--productDAO  -->
+	<select id="bestView" resultType="com.showoff.dto.ProductDTO" parameterType="String">
+		<![CDATA[
+			SELECT * FROM (SELECT * FROM product ORDER BY p_purchasecnt DESC) WHERE ROWNUM <= 4
+		]]>
+	</select>
+	
+	<select id="highPriceView" resultType="com.showoff.dto.ProductDTO" parameterType="String">
+		<![CDATA[
+			SELECT * FROM (SELECT * FROM product ORDER BY p_price DESC) WHERE ROWNUM <= 4
+		]]>
+	</select>
+	
+	<select id="newView" resultType="com.showoff.dto.ProductDTO" parameterType="String">
+		<![CDATA[
+			SELECT * FROM (SELECT * FROM product ORDER BY p_indate DESC) WHERE ROWNUM <= 12
+		]]>
+	</select>
+  	
+  	
+  	
+  	<!-- =================================================================================  -->
+  	<!--MemberDAO  -->
+  	<insert id="insertMember" parameterType="com.showoff.dto.MemberDTO">
+  	INSERT INTO showoff_member 
+  	VALUES(#{id} , #{pw} , #{gname} , #{phone} , #{email})
+  	</insert>
+  	
+  	<select id="confirmID" parameterType="String" resultType="String">
+  	SELECT * FROM showoff_member 
+  	WHERE id = #{userid}
+  	</select>
+  	
+  	<select id="confirmPW" parameterType="com.showoff.dto.MemberDTO" resultType="String">
+  	SELECT id FROM showoff_member 
+  	WHERE id= #{id} AND pw = #{pw}
+  	</select>
+  	
+  	<select id="loginCheck" parameterType="com.showoff.dto.MemberDTO" resultType="com.showoff.dto.MemberDTO">
+  	SELECT * FROM showoff_member 
+  	WHERE id= #{id} AND pw = #{pw}
+  	</select>
+  	
+  	<update id="memUpdate" parameterType="com.showoff.dto.MemberDTO">
+  	UPDATE showoff_member 
+	SET pw = #{pw} , gname = #{gname} , phone = #{phone} , email = #{email} 
+	WHERE id = #{id}
+  	</update>
+  	
+  	<update id="updatePW" parameterType="com.showoff.dto.MemberDTO">
+  	UPDATE showoff_member SET 
+	pw = #{pw} 
+	WHERE id= #{id}
+  	</update>
+  	
+  	<delete id="deleteMember" parameterType="String">
+  	DELETE FROM showoff_member
+  	WHERE id = #{userid}
+  	</delete>
+  	
+  	
+</mapper>
