@@ -2,6 +2,14 @@
 	pageEncoding="UTF-8"%>
 <%@ include file="../modal_login.jsp" %>
 <%@ include file="include.jsp" %>
+<%@ include file="side_nav.jsp" %>
+<% 
+
+String path = request.getContextPath();
+
+%>
+
+
 <!DOCTYPE html >
 <html>
 <head>
@@ -264,15 +272,15 @@ font-weight: 700;
 					<c:choose>
 						<c:when test="${empty sessionScope.loginUser}">
 							<li id="header_login"><a href="#">로그인</a></li>
-							<li><a href="contract.bizpoll">회원가입</a></li>
+							<li><a href="<%=path%>/contract.bizpoll">회원가입</a></li>
 						</c:when>
 						<c:otherwise>
 							<li id="gname_afterlogin">${sessionScope.loginUser.gname}(${sessionScope.loginUser.id})님</li>
-							<li><a href="logOut.bizpoll">로그아웃</a></li>
+							<li><a href="<%=path%>/logOut.bizpoll">로그아웃</a></li>
 							<li><a href="#">마이페이지▼</a>
 							<div id="header_line1_ul_mypage_dropdown">
 								<ul>
-									<li><a href="memberUpdate.bizpoll">회원정보</a></li>
+									<li><a href="<%=path%>/memberUpdate.bizpoll">회원정보</a></li>
 									<li><a href="#">장바구니</a></li>
 									<li><a href="#">VIP등급</a></li>
 									<li><a href="#">나의SHOWOFF</a></li>
@@ -281,13 +289,14 @@ font-weight: 700;
 						</c:otherwise>
 					</c:choose>
 						<li><a href="">고객센터</a></li>
+						<li><a href="<%=path%>/boardList.bizpoll">Q&A</a></li>
 					</ul>
 				</div>
 			</div>
 
 			<div id="header_line2">
 				<a href="index.bizpoll"> <img id="company_logo" alt="company_logo"
-					src="img/Slogo.png"></a>
+					src="<%=path%>/img/Slogo.png"></a>
 
 				<div id="header_line2_wrap_search">
 					<div id="header_line2_search">

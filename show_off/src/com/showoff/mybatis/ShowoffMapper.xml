@@ -65,5 +65,11 @@
   	WHERE id = #{userid}
   	</delete>
   	
+  	<!--boardDAO  -->
+  	<select id="boardList" resultType="com.showoff.dto.BoardDTO">
+  	SELECT * FROM board
+  	ORDER BY bno DESC 
+  	
+  	</select>
   	
 </mapper>

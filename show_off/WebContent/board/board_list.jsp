@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ include file="include/header.jsp"%>
-<%@ include file="include/side_nav.jsp"%>
+<%@ include file="../include/header.jsp"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -32,7 +31,7 @@ a {
 
 .board_wrap {
 width: 50%;
-height: 800px;
+height: 870px;
 margin: 0 auto;
 box-shadow: 0px 4px 10px 0 rgba(0, 0, 0, 0.2), 0px 4px 10px 0 rgba(0, 0, 0, 0.10);
 opacity: 0.9;
@@ -69,6 +68,13 @@ width: 200px;
 .table-bordered th{
 text-align: center;
 }
+.board_content{
+text-align: center;
+}
+table tr:nth-child(even) {
+    background: #e1eef6;
+}
+
 
 </style>
 
@@ -111,8 +117,8 @@ text-align: center;
 					Title or Content or Writer</option>
 			</select> 
 			<input type="text" name="keyword" id="keywordInput" value="${cri.keyword }" placeholder="검색어를 입력하세요">
-			<button id="searchbtn"  class="btn btn-warning">Search</button>
-			<button id="newbtn" class="btn btn-info">New Board</button>
+			<button id="searchbtn"  class="btn btn-warning">검색</button>
+			<button id="newbtn" class="btn btn-info">질문하기</button>
 		</div>
 		
 	 </div>
@@ -120,30 +126,40 @@ text-align: center;
 		<table class="table table-bordered">
 			<tr>
 				<th style="width: 5%;"><span class="badge badge-dark">번호</span></th>
-				<th style="width: 20%;"><span class="badge badge-primary">TITLE <span class="badge badge-light">9</span></span></th>
+				<th style="width: 25%;"><span class="badge badge-primary">TITLE <span class="badge badge-light">9</span></span></th>
 				<th style="width: 10%;"><span class="badge badge-secondary">작성자</span></th>
-				<th style="width: 15%;"><span class="badge badge-warning">등록날짜</span></th>
+				<th style="width: 10%;"><span class="badge badge-warning">등록날짜</span></th>
 				<th style="width: 5%;"><span class="badge badge-success">VIEW</span></th>
 				<th style="width: 5%;"><span class="badge badge-danger">LIKES</span></th>
 				<th style="width: 5%;"><span class="badge badge-info">UPLOADS</span></th>
 			</tr>
 			<!--댓글 갯수를 보여주는 기능  -->
 
-			<c:forEach items="${list}" var="boardVO">
+			<c:forEach items="${boardList}" var="boardList">
 
 				<tr>
-					<td>${boardVO.bno}</td>
-					<td><a
-						href='/sboard/readPage${pageMaker.makeSearch(pageMaker.cri.page) }
-				&bno=${boardVO.bno }'>
-							${boardVO.title}<strong>[${boardVO.replycnt }]</strong>
-					</a></td>
-					<td>${boardVO.writer}</td>
-					<td><fmt:formatDate pattern="yyyy-MM-dd HH:mm"
-							value="${boardVO.regdate}" /></td>
-					<td><span class="badge bg-red">${boardVO.viewcnt}</span></td>
+					<td class="board_content">${boardList.bno}</td>
+					<td class="board_content"><a href="#">${boardList.title}</a></td>
+					<td class="board_content">${boardList.writer}</td>
+					<td class="board_content">
+						<fmt:formatDate value="${today}" pattern="yyyy-MM-dd" var ="today2"/>
+						<fmt:formatDate value="${boardList.regdate}" pattern="yyyy-MM-dd" var = "regdate2"/>
+						<c:choose>
+							<c:when test="${today2 == regdate2}">
+								<fmt:formatDate pattern="HH:mm:ss" value="${boardList.regdate}"/>
+							</c:when>
+							<c:otherwise>
+								<fmt:formatDate pattern="yyyy-MM-dd" value="${boardList.regdate}"/>
+							</c:otherwise>
+						</c:choose>
+						
+					</td>
+					<td class="board_content"><span class="badge badge-success">${boardList.viewcnt}</span></td>
+					<td class="board_content"><span class="badge badge-danger">${boardList.goodcnt}</span></td>
+					<td class="board_content"><span class="badge badge-info">${boardList.filesize}</span></td>
 				</tr>
 			</c:forEach>
+			
 		</table>
 		
 		<!-- 페이징 처리 -->
@@ -168,16 +184,13 @@ text-align: center;
 
 </body>
 
-<%@ include file="include/footer.jsp"%>
-<script type="text/javascript"
-	src="bootstrap-4.1.3-dist/js/bootstrap.js"></script>
+<%@ include file="../include/footer.jsp"%>
+<script type="text/javascript" src="bootstrap-4.1.3-dist/js/bootstrap.js"></script>
 <script>
 	$(document).ready(
 			function() {
 
-				$('#searchbtn').on(
-						"click",
-						function(event) {
+				$('#searchbtn').on("click", function(event) {
 							self.location = "list"
 									+ '${pageMaker.makeQuery(1)}'
 									+ "&searchType="

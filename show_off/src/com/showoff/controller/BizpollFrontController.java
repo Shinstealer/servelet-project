@@ -22,6 +22,7 @@ import com.showoff.action.MemUpdatePlayAction;
 import com.showoff.action.MemberDeletePlayAction;
 import com.showoff.action.MemberPlayAction;
 import com.showoff.action.PWUpdatePlayAction;
+import com.showoff.action.boardListAction;
 import com.showoff.action.pwCheckAction;
 
 /**
@@ -62,7 +63,7 @@ public class BizpollFrontController extends HttpServlet {
 		if(command.equals("/index.bizpoll")) {
 			action = new IndexAction();
 			forward = action.excute(request, response);
-		}else if(command.endsWith("contract.bizpoll")){
+		}else if(command.equals("/contract.bizpoll")){
 			action = new Contractbizpoll();
 			forward = action.excute(request, response);
 		}else if(command.equals("/join.bizpoll")) {
@@ -97,6 +98,10 @@ public class BizpollFrontController extends HttpServlet {
 			forward = action.excute(request, response);
 		}else if(command.equals("/memberdeleteplay.bizpoll")) {
 			action = new MemberDeletePlayAction();
+			forward = action.excute(request, response);
+		}else if(command.equals("/boardList.bizpoll")) {
+			System.out.println("이동함 콘트롤");
+			action = new boardListAction();
 			forward = action.excute(request, response);
 		}
 		
