@@ -1,2 +1,2 @@
 # showoff.com
-The project used by Eclipse MVC patterns 
+The project of shopping site used by Eclipse MVC patterns 
