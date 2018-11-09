@@ -60,6 +60,7 @@
 	WHERE id= #{id}
   	</update>
   	
+  	
   	<delete id="deleteMember" parameterType="String">
   	DELETE FROM showoff_member
   	WHERE id = #{userid}
@@ -67,9 +68,99 @@
   	
   	<!--boardDAO  -->
   	<select id="boardList" resultType="com.showoff.dto.BoardDTO">
-  	SELECT * FROM board
-  	ORDER BY bno DESC 
-  	
+  		<![CDATA[
+  		SELECT * FROM(SELECT rownum rnum, 
+              a.* 
+              FROM (SELECT *
+                        FROM board
+                        WHERE bno > 0
+                        ORDER BY bno DESC
+                        )a
+                )
+		WHERE rnum BETWEEN #{pageStart} AND #{perPageNum}
+  		]]>
   	</select>
+  	
+  	<!--pagination  -->
+  	<select id="countPaging" resultType="int">
+  		<![CDATA[
+			SELECT count(bno) 
+			FROM board 
+			WHERE bno > 0
+		]]>
+  	
+  		<if test='flag == "1"'>
+   		 <![CDATA[AND title LIKE '%'||#{keyword}||'%' OR content LIKE '%'||#{keyword}||'%' ]]>
+    	</if>
+     	<if test='flag == "2"'>
+   		 <![CDATA[AND title LIKE '%'||#{keyword}||'%']]>
+     	</if>
+     	<if test='flag == "3"'>
+   		 <![CDATA[AND content LIKE '%'||#{keyword}||'%']]>
+     	</if>
+     	<if test='flag == "4"'>
+   		 <![CDATA[AND writer LIKE '%'||#{keyword}||'%']]>
+     	</if>
+  	</select>
+  	
+  	<!--searchAction  -->
+  	
+  	<select id="BoardSearchList" resultType="com.showoff.dto.BoardDTO">
+	  	<![CDATA[
+	  		SELECT * FROM(SELECT rownum rnum, 
+	              a.* 
+	              FROM (SELECT *
+	                        FROM board
+	                        WHERE bno > 0 ]]> 
+	                        
+	                        <if test='flag == "1"'>
+	                      		 <![CDATA[AND title LIKE '%'||#{keyword}||'%' OR content LIKE '%'||#{keyword}||'%' ]]>
+	                        </if>
+	                        <if test='flag == "2"'>
+	                      		 <![CDATA[AND title LIKE '%'||#{keyword}||'%']]>
+	                        </if>
+	                        <if test='flag == "3"'>
+	                      		 <![CDATA[AND content LIKE '%'||#{keyword}||'%']]>
+	                        </if>
+	                        <if test='flag == "4"'>
+	                      		 <![CDATA[AND writer LIKE '%'||#{keyword}||'%']]>
+	                        </if>
+	                        
+	        <![CDATA[       ORDER BY bno DESC
+	                        )a
+	                )
+			WHERE rnum BETWEEN #{pageStart} AND #{perPageNum}
+	  		]]>
+  	</select>
+  	
+  	<!--board viewCnt  -->
+  	<update id="viewCnt">
+  		UPDATE board SET 
+		viewcnt = viewcnt + 1 
+		WHERE bno = #{bno}
+  	</update>
+  	
+  	<!--board Detail  -->
+  	<select id="boardDetailView" resultType="com.showoff.dto.BoardDTO">
+  		SELECT * FROM board 
+  		WHERE bno = #{bno}
+  	</select>
+  	
+  	<!--board regist  -->
+  	<insert id="boardInsert" parameterType="com.showoff.dto.BoardDTO">
+  		
+  		<choose>
+			<when test="content != null">
+				INSERT INTO board(bno,title, content, writer , filename ,filesize)
+				VALUES(seq_board.nextval , #{title}, #{content} , #{writer} , #{filename} , #{filesize})			
+			</when>
+			
+			<otherwise>
+				INSERT INTO board(bno,title, content, writer , filename ,filesize)
+				VALUES(seq_board.nextval , #{title}, #{content} , #{writer} , #{filename} , #{filesize})
+			</otherwise>
+  		</choose>
+  	
+  	</insert>
   	
 </mapper>

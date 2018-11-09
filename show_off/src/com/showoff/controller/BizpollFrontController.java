@@ -11,6 +11,11 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.showoff.action.Action;
 import com.showoff.action.ActionForward;
+import com.showoff.action.BoardDetailAction;
+import com.showoff.action.BoardPlayRegistAction;
+import com.showoff.action.BoardRegistACtion;
+import com.showoff.action.BoardSearchAction;
+import com.showoff.action.BoardViewsAction;
 import com.showoff.action.Contractbizpoll;
 import com.showoff.action.IdCheckAction;
 import com.showoff.action.IndexAction;
@@ -100,8 +105,22 @@ public class BizpollFrontController extends HttpServlet {
 			action = new MemberDeletePlayAction();
 			forward = action.excute(request, response);
 		}else if(command.equals("/boardList.bizpoll")) {
-			System.out.println("이동함 콘트롤");
 			action = new boardListAction();
+			forward = action.excute(request, response);
+		}else if(command.equals("/boardSearch.bizpoll")) {
+			action = new BoardSearchAction();
+			forward = action.excute(request, response);
+		}else if(command.equals("/boardDetail.bizpoll")) {
+			action = new BoardDetailAction();
+			forward = action.excute(request, response);
+		}else if(command.equals("/boardviewcnt.bizpoll")) {
+			action = new BoardViewsAction();
+			forward = action.excute(request, response);
+		}else if(command.equals("/board_regist.bizpoll")) {
+			action = new BoardRegistACtion();
+			forward = action.excute(request, response);
+		}else if(command.equals("/regist_contents.bizpoll")) {
+			action = new BoardPlayRegistAction();
 			forward = action.excute(request, response);
 		}
 		

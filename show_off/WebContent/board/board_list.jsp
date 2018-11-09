@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ include file="../include/include.jsp" %>	
 <%@ include file="../include/header.jsp"%>
 <!DOCTYPE html>
 <html>
@@ -15,13 +16,9 @@
 	box-sizing: border-box;
 }
 
-body, url {
+body, ul{
 	margin: 0;
 	padding: 0;
-}
-
-a {
-	color: black !important;
 }
 
 #indexBody {
@@ -39,8 +36,9 @@ background-color: white !important;
 }
 .board_head{
 width: 100%;
-height: 40px;
-margin-bottom: 20px;
+height: 60px;
+margin-bottom: 40px;
+padding:20px 20px 0 20px;
 }
 .search-bar{
 float: right !important;
@@ -51,11 +49,22 @@ list-style: none;
 padding: 0;
 margin: 10px 10px 0 5px;
 float: left;
-color: #555;
+color: #F6F6F6;
+background-color: #747474;
+border-radius: 4px;
+border-bottom-style: none;
+height: 30px;
+width: 60px;
+text-align: center;
 }
-.list-sort li:hover{
-text-decoration: underline;
+
+.list-sort a{
+
+
+font-size: 17px;
+font-weight: bold;
 }
+
 .pull-left{
 float: left !important;
 }
@@ -75,6 +84,41 @@ table tr:nth-child(even) {
     background: #e1eef6;
 }
 
+.blinking{
+color:red;
+-webkit-animation:blink 2.0s ease-in-out infinite alternate;
+-moz-animation:blink 2.0s ease-in-out infinite alternate;
+animation:blink 2.0s ease-in-out infinite alternate;
+}
+@-webkit-keyframes blink{
+0% {opacity:0;}
+100% {opacity:1;}
+}
+@-moz-keyframes blink{
+0% {opacity:0;}
+100% {opacity:1;}
+}
+@keyframes blink{
+0% {opacity:0;}
+100% {opacity:1;}
+}
+
+.pagination_nav{
+width: 100%;
+}
+.pagination{
+width: 80%;
+margin: 0 auto;
+}
+.sr-only{
+background-color: red;
+
+}
+
+td > .fas{
+width: 20px;
+height: 20px;
+}
 
 </style>
 
@@ -86,39 +130,27 @@ table tr:nth-child(even) {
 	  
 		<!--sBoard List  -->
 		<ul class="list-sort pull-left">
-			<li><a href="#" class="category-sort-link active">최신순</a></li>
+			<li><a href="#" class="category-sort-link ">최신순</a></li>
 			<li><a href="#" class="category-sort-link ">추천순</a></li>
 			<li><a href="#" class="category-sort-link ">댓글순</a></li>
 			<li><a href="#" class="category-sort-link ">조회순</a></li>
 		
 		</ul>
-		<div class='box-body search-bar '>
-			<select name="searchType" class="custom-select" id="inputGroupSelect01" style="width: 100px;">
-				<option value="n"
-					<c:out value="${cri.searchType ==  null?'selected' :''}"/>>
-					---</option>
-				<option value="t"
-					<c:out value="${cri.searchType eq 't'?'selected' :''}"/>>
-					Title</option>
-				<option value="c"
-					<c:out value="${cri.searchType eq 'c'?'selected' :''}"/>>
-					Content</option>
-				<option value="w"
-					<c:out value="${cri.searchType eq 'w'?'selected' :''}"/>>
-					Writer</option>
-				<option value="tc"
-					<c:out value="${cri.searchType eq 'tc'?'selected' :''}"/>>
-					Title or Content</option>
-				<option value="cw"
-					<c:out value="${cri.searchType eq 'cw'?'selected' :''}"/>>
-					Content or Writer</option>
-				<option value="tcw"
-					<c:out value="${cri.searchType eq 'tcw'?'selected' :''}"/>>
-					Title or Content or Writer</option>
+		<div class='box-body search-bar'>
+			<select name="searchType" class="custom-select" id="inputGroupSelect01" style="width: 120px;">
+				<option value="1">
+					제목+내용</option>
+				<option value="2">
+					제목</option>
+				<option value="3">
+					내용</option>
+				<option value="4">
+					작성자</option>
+				
 			</select> 
 			<input type="text" name="keyword" id="keywordInput" value="${cri.keyword }" placeholder="검색어를 입력하세요">
-			<button id="searchbtn"  class="btn btn-warning">검색</button>
-			<button id="newbtn" class="btn btn-info">질문하기</button>
+			<button id="Boardsearchbtn"  class="btn btn-warning">검색</button>
+			<a href="board_regist.bizpoll"><button id="newbtn" class="btn btn-info">질문하기</button></a>
 		</div>
 		
 	 </div>
@@ -126,7 +158,7 @@ table tr:nth-child(even) {
 		<table class="table table-bordered">
 			<tr>
 				<th style="width: 5%;"><span class="badge badge-dark">번호</span></th>
-				<th style="width: 25%;"><span class="badge badge-primary">TITLE <span class="badge badge-light">9</span></span></th>
+				<th style="width: 25%;"><span class="badge badge-primary">TITLE </span></th>
 				<th style="width: 10%;"><span class="badge badge-secondary">작성자</span></th>
 				<th style="width: 10%;"><span class="badge badge-warning">등록날짜</span></th>
 				<th style="width: 5%;"><span class="badge badge-success">VIEW</span></th>
@@ -136,14 +168,20 @@ table tr:nth-child(even) {
 			<!--댓글 갯수를 보여주는 기능  -->
 
 			<c:forEach items="${boardList}" var="boardList">
-
+				<fmt:formatDate value="${today}" pattern="yyyy-MM-dd" var ="today2"/>
+				<fmt:formatDate value="${boardList.regdate}" pattern="yyyy-MM-dd" var = "regdate2"/>
 				<tr>
 					<td class="board_content">${boardList.bno}</td>
-					<td class="board_content"><a href="#">${boardList.title}</a></td>
+					<td class="board_content">
+						<c:if test="${today2 == regdate2}"><span class="blinking">NEW</span></c:if>
+						<a href="boardviewcnt.bizpoll?bno=${boardList.bno}">${boardList.title}</a> 
+						<span class="badge badge-light">9</span>
+					
+					
+					</td>
 					<td class="board_content">${boardList.writer}</td>
 					<td class="board_content">
-						<fmt:formatDate value="${today}" pattern="yyyy-MM-dd" var ="today2"/>
-						<fmt:formatDate value="${boardList.regdate}" pattern="yyyy-MM-dd" var = "regdate2"/>
+						
 						<c:choose>
 							<c:when test="${today2 == regdate2}">
 								<fmt:formatDate pattern="HH:mm:ss" value="${boardList.regdate}"/>
@@ -156,23 +194,47 @@ table tr:nth-child(even) {
 					</td>
 					<td class="board_content"><span class="badge badge-success">${boardList.viewcnt}</span></td>
 					<td class="board_content"><span class="badge badge-danger">${boardList.goodcnt}</span></td>
-					<td class="board_content"><span class="badge badge-info">${boardList.filesize}</span></td>
+					<td class="board_content">
+					    <c:if test="${boardList.filesize > 0}">
+						 <i class="fas fa-file-upload"></i>
+						</c:if>
+					</td>
 				</tr>
 			</c:forEach>
 			
 		</table>
 		
 		<!-- 페이징 처리 -->
-		<nav aria-label="...">
+		<nav class="pagination_nav" aria-label="...">
 			<ul class="pagination">
-				<li class="page-item disabled"><a class="page-link" href="#"
-					tabindex="-1">Previous</a></li>
-				<li class="page-item"><a class="page-link" href="#">1</a></li>
-				<li class="page-item active"><a class="page-link" href="#">2
-						<span class="sr-only">(current)</span>
-				</a></li>
-				<li class="page-item"><a class="page-link" href="#">3</a></li>
-				<li class="page-item"><a class="page-link" href="#">Next</a></li>
+				<c:if test="${pageMaker.prev}">
+					<li class="page-item">
+						<a class="page-link" href="boardList.bizpoll?page=${pageMaker.startPage-1}">previous</a>
+					</li>
+				</c:if>		
+				
+					<li>
+						<a class="page-link" href="boardList.bizpoll?page=${pageMaker.firstPage}">${pageMaker.firstPage }</a>
+					</li>
+					<li><a class="page-link">....</a></li>	
+				
+				<c:forEach begin="${pageMaker.startPage}" end="${pageMaker.endPage }" var = "idx">
+					<li 
+						<c:out value="${pageMaker.criDto.page == idx? 'class=sr-only':''}"/>>
+						<a class="page-link" href="boardList.bizpoll?page=${idx}">${idx} </a>
+					</li>	
+				</c:forEach>
+					
+					<li><a class="page-link">....</a></li>				
+					<li>
+						<a class="page-link" href="boardList.bizpoll?page=${pageMaker.finalPage + 1 }">${pageMaker.finalPage}</a>
+					</li>
+					
+				<c:if test="${pageMaker.next}">
+					<li class="page-item">
+						<a class="page-link" href="boardList.bizpoll?page=${pageMaker.endPage + 1 }">Next</a>
+					</li>
+				</c:if>
 			</ul>
 		</nav>
 
@@ -185,32 +247,25 @@ table tr:nth-child(even) {
 </body>
 
 <%@ include file="../include/footer.jsp"%>
-<script type="text/javascript" src="bootstrap-4.1.3-dist/js/bootstrap.js"></script>
-<script>
-	$(document).ready(
-			function() {
 
-				$('#searchbtn').on("click", function(event) {
-							self.location = "list"
-									+ '${pageMaker.makeQuery(1)}'
-									+ "&searchType="
-									+ $("select option:selected").val()
-									+ "&keyword="
-									+ encodeURIComponent($('#keywordInput')
-											.val());
-						});
-
-				$('#newbtn').on("click", function(evt) {
-					self.location = "register";
-				});
-
-			});
+<script type="text/javascript">
+$(document).ready(function () {
+	
+	$("#Boardsearchbtn").on("click" , function () {
+		var keyword = $("#keywordInput").val();
+		var flag = $("#inputGroupSelect01").val();
+		
+		alert("클릭");
+		alert(flag + "," + keyword);
+		location.href="boardSearch.bizpoll?flag="+flag+"&keyword="+keyword;
+		
+	});
 	
 	
-			var result = '${msg}';
-			if (result == 'SUCCESS') {
-				alert("처리가 완료되었습니다.");
-			}
+	
+});
 
 </script>
+
+
 </html>

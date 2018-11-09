@@ -13,47 +13,57 @@ import com.showoff.dto.BoardDTO;
 import com.showoff.dto.CriteriaDTO;
 import com.showoff.dto.PageMakerDTO;
 
-public class boardListAction implements Action {
+public class BoardSearchAction implements Action{
 
 	@Override
 	public ActionForward excute(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		//Criteria는 맨위에 있어야함
+
+
+		String flag = request.getParameter("flag");
+		String keyword = request.getParameter("keyword");
+		
+		System.out.println(flag + keyword);
+		
+		String url = "board/board_list.jsp";
+		// Criteria는 맨위에 있어야함
 		CriteriaDTO criDto = new CriteriaDTO();
 		int page = 1;
-		if(request.getParameter("page") != null) {
+		if (request.getParameter("page") != null) {
 			page = Integer.parseInt(request.getParameter("page"));
 		}
 		System.out.println("페이지번호 : " + page);
 		criDto.setPage(page);
 		
-		String url = "board/board_list.jsp";
-		
 		BoardDAO dao = BoardDAO.getInstance();
-		//게시물 목록
-		List<BoardDTO> boardList = dao.boardListAll(criDto);
 		
-		request.setAttribute("boardList", boardList);
+		criDto.setKeyword(keyword);
+		criDto.setFlag(flag);
+		System.out.println(flag +"," + keyword);
+
 		
-		//현재날짜 출력
+		// 게시물 목록
+		List<BoardDTO> boardSearchList = dao.boardSearch(criDto);
+
+		request.setAttribute("boardList", boardSearchList);
+
+		// 현재날짜 출력
 		Date today = new Date();
 		request.setAttribute("today", today);
-		
-		
-		
+
 		PageMakerDTO pageMaker = new PageMakerDTO();
 		pageMaker.setCriDto(criDto);
-		
+
 		int totalcount = dao.totalCount(criDto);
 		pageMaker.setTotalCount(totalcount);
 		request.setAttribute("pageMaker", pageMaker);
-		
+
 		System.out.println(pageMaker.toString());
-		
+
 		ActionForward forward = new ActionForward();
 		forward.setPath(url);
 		forward.setRedirect(false);
-		
+
 		return forward;
 	}
 
