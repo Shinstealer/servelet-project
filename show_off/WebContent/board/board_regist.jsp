@@ -31,6 +31,10 @@ body, ul{
 width: 45%;
 margin: 0 auto;
 }
+.box_elements{
+font-weight: bold;
+font-stretch: semi-expanded;
+}
 
 .readbtnGroup{
 width:20%;
@@ -59,17 +63,17 @@ margin-top: 30px;
 	<!-- /. box-body -->
 	
 	<div class="box-body">
-		<div class="form-group">
-			<label for="exampleInputEmail">Title</label> <input type="text"
+		<div class="form-group box_elements">
+			<label for="exampleInputEmail">TITLE</label> <input type="text"
 				name='title' class="form-control">
 		</div>
-		<div class="">
-			<label for="exampleInputPassword">Content</label>
+		<div class="form-group box_elements">
+			<label for="exampleInputPassword">CONTENT</label>
 			<textarea class="text" id="content1" name="content1" cols="260px" rows="25px"></textarea>
 		</div>
 	
-		<div class="form-group">
-			<label for="exampleInputEmail">Writer</label> <input type="text"
+		<div class="form-group box_elements">
+			<label for="exampleInputEmail">WRITER</label> <input type="text"
 				name='writer' class="form-control">
 		</div>
 		

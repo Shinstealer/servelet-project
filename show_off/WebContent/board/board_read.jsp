@@ -31,6 +31,10 @@ body, ul{
 width: 45%;
 margin: 0 auto;
 }
+.box_elements{
+font-weight: bold;
+font-stretch: semi-expanded;
+}
 
 .readbtnGroup{
 width:20%;
@@ -54,18 +58,18 @@ float: right;
 	<!-- /. box-body -->
 	
 	<div class="box-body">
-		<div class="form-group">
-			<label for="exampleInputEmail">Title</label> <input type="text"
+		<div class="form-group box_elements">
+			<label for="exampleInputEmail">TITLE</label> <input type="text"
 				name='title' class="form-control" value="${boardDetailView.title }"
 				readonly="readonly">
 		</div>
-		<div class="">
-			<label for="exampleInputPassword">Content</label>
+		<div class="form-group box_elements">
+			<label for="exampleInputPassword">CONTENT</label>
 			<textarea class="text" id="contents" name="contents" cols="260px" rows="25px" readonly="readonly">${boardDetailView.content }</textarea>
 		</div>
 	
-		<div class="form-group">
-			<label for="exampleInputEmail">Writer</label> <input type="text"
+		<div class="form-group box_elements">
+			<label for="exampleInputEmail">WRITER</label> <input type="text"
 				name='writer' class="form-control" value=${boardDetailView.writer }
 				readonly="readonly">
 		</div>
