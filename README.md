@@ -1,12 +1,12 @@
 # servelet-project
 
-built the web-site using servelet and MVC pattern
+**:book: purpose**
 
-## Getting Started
+:arrow_right:It is to learn how to build web system with Java language and MVC pattern
 
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
 
-## Built With
+**:book: Enviorment**
+
 * [JAVA 1.8]
 * [HTML5]
 * [CSS]
