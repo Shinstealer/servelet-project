@@ -17,10 +17,12 @@
 **:book: Language**
 
 * [JAVA 1.8]
+* [JAVASCRIPT]
+* [Jquery]
+* [Ajax]
 * [HTML5]
 * [CSS]
-* [JAVASCRIPT]
-* [jquery]
+* [Bootstrap]
 
 **:book: DataBase**
 
