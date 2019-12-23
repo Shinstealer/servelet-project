@@ -2,7 +2,7 @@
 
 **:book: project**
 
-:arrow_right: built shopping Mall
+:arrow_right: built web shopping Mall
 
 **:book: purpose**
 
