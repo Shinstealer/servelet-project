@@ -18,11 +18,9 @@
 
 * [JAVA 1.8]
 * [JAVASCRIPT]
-* [Jquery]
-* [Ajax]
 * [HTML5]
 * [CSS]
-* [Bootstrap]
+* [Ajax]
 
 **:book: DataBase**
 
@@ -31,6 +29,10 @@
 **:book: server**
 
 * [Tomcat8]
+**:book: libarary**
+
+* [Jquery]
+* [Bootstrap]
 
 ## Acknowledgments
 
