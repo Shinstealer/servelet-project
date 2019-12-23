@@ -9,15 +9,25 @@
 :arrow_right: It is to learn how to build web system with Java language and MVC pattern
 
 
-
 **:book: Enviorment**
+
+* [eclipse]
+* [Maven]
+
+**:book: Language**
 
 * [JAVA 1.8]
 * [HTML5]
 * [CSS]
 * [JAVASCRIPT]
-* [eclipse]
-* [Maven]
+* [jquery]
+
+**:book: DataBase**
+
+* [OracleSql]
+
+**:book: server**
+
 * [Tomcat8]
 
 ## Acknowledgments
