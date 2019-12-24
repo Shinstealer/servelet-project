@@ -9,10 +9,9 @@
 :arrow_right: It is to learn how to build web system with Java language and MVC pattern
 
 
-**:book: Enviorment**
+**:book: IDE**
 
 * [eclipse]
-* [Maven]
 
 **:book: Language**
 
@@ -34,6 +33,10 @@
 
 * [Jquery]
 * [Bootstrap]
+
+**:book: project management**
+
+* [Maven]
 
 ## Acknowledgments
 
